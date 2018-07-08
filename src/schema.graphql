@@ -1,0 +1,14 @@
+type Query {
+  info: String!
+  inventory: [Game!]!
+}
+
+type Mutation {
+  createGame(name: String!, gameConsole: String!): Game!
+}
+
+type Game {
+  id: ID!
+  name: String!
+  gameConsole: String!
+}

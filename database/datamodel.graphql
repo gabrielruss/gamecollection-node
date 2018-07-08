@@ -1,0 +1,6 @@
+type Game {
+  id: ID! @unique
+  createdAt: DateTime!
+  name: String!
+  gameConsole: String!
+}
