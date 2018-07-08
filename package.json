@@ -1,0 +1,11 @@
+{
+  "name": "gamecollection-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/gabrielruss/gamecollection-node.git",
+  "author": "Gabriel <gabrielruss88@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.14.12"
+  }
+}
