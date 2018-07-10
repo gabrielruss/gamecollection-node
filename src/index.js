@@ -1,37 +1,42 @@
 const { GraphQLServer } = require("graphql-yoga");
-
-let games = [
-  {
-    id: "game-0",
-    name: "Zelda",
-    gameConsole: "NES"
-  }
-];
-
-let idCount = games.length;
+const { Prisma } = require("prisma-binding");
 
 const resolvers = {
   Query: {
     info: () => `This is my game collection API`,
-    inventory: () => games
+    inventory: (root, args, context, info) => {
+      return context.db.query.games({}, info);
+    }
   },
 
   Mutation: {
-    createGame: (parent, args) => {
-      const game = {
-        id: `game-${idCount++}`,
-        name: args.name,
-        gameConsole: args.gameConsole
-      };
-      games.push(game);
-      return game;
+    createGame: (root, args, context, info) => {
+      return context.db.mutation.createGame(
+        {
+          data: {
+            name: args.name,
+            gameConsole: args.gameConsole
+          }
+        },
+        info
+      );
     }
   }
 };
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
-  resolvers
+  resolvers,
+  context: req => ({
+    ...req,
+    db: new Prisma({
+      typeDefs: "src/generated/prisma.graphql",
+      endpoint:
+        "https://us1.prisma.sh/gabriel-russ-c7e03e/gamecollection-node/dev",
+      secret: "gabriel123",
+      debug: true
+    })
+  })
 });
 
 server.start(() => console.log(`Server is running on http://localhost:4000`));

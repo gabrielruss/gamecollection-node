@@ -3,3 +3,8 @@ endpoint: https://us1.prisma.sh/gabriel-russ-c7e03e/gamecollection-node/dev
 datamodel: datamodel.graphql
 
 secret: gabriel123
+
+# Deploy hook
+hooks:
+  post-deploy:
+    - graphql get-schema --project database
