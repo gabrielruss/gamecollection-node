@@ -1,27 +1,14 @@
 const { GraphQLServer } = require("graphql-yoga");
 const { Prisma } = require("prisma-binding");
 
-const resolvers = {
-  Query: {
-    info: () => `This is my game collection API`,
-    inventory: (root, args, context, info) => {
-      return context.db.query.games({}, info);
-    }
-  },
+const Query = require("./resolvers/Query");
+const Mutation = require("./resolvers/Mutation");
+const AuthPayload = require("./resolvers/AuthPayload");
 
-  Mutation: {
-    createGame: (root, args, context, info) => {
-      return context.db.mutation.createGame(
-        {
-          data: {
-            name: args.name,
-            gameConsole: args.gameConsole
-          }
-        },
-        info
-      );
-    }
-  }
+const resolvers = {
+  Query,
+  Mutation,
+  AuthPayload
 };
 
 const server = new GraphQLServer({
