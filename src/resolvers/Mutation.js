@@ -57,8 +57,31 @@ function createGame(parent, args, context, info) {
   );
 }
 
+async function vote(parent, args, context, info) {
+  const userId = getUserId(context);
+
+  const gameExists = await context.db.exists.Vote({
+    user: { id: userId },
+    game: { id: args.gameId }
+  });
+  if (gameExists) {
+    throw new Error(`Already voted for game: ${args.gameId}`);
+  }
+
+  return context.db.mutation.createVote(
+    {
+      data: {
+        user: { connect: { id: userId } },
+        game: { connect: { id: args.gameId } }
+      }
+    },
+    info
+  );
+}
+
 module.exports = {
   signup,
   login,
-  createGame
+  createGame,
+  vote
 };

@@ -5,6 +5,7 @@ type Game {
   gameConsole: String!
   condition: String!
   createdBy: User
+  votes: [Vote!]!
 }
 
 type User {
@@ -13,4 +14,11 @@ type User {
   email: String! @unique
   password: String!
   games: [Game!]!
+  votes: [Vote!]!
+}
+
+type Vote {
+  id: ID! @unique
+  game: Game!
+  user: User!
 }
