@@ -1,6 +1,6 @@
 const info = () => `This is my game collection API`;
 
-function inventory(parent, args, context, info) {
+async function inventory(parent, args, context, info) {
   const where = args.filter
     ? {
         OR: [
@@ -10,7 +10,29 @@ function inventory(parent, args, context, info) {
         ]
       }
     : {};
-  return context.db.query.games({ where }, info);
+
+  const queriedGames = await context.db.query.games(
+    { where, skip: args.skip, first: args.first, orderBy: args.orderBy },
+    `{ id }`
+  );
+
+  const countSelectionSet = `
+    {
+      aggregate {
+        count
+      }
+    }
+  `;
+
+  const linksConnection = await context.db.query.gamesConnection(
+    {},
+    countSelectionSet
+  );
+
+  return {
+    count: linksConnection.aggregate.count,
+    linkIds: queriedGames.map(game => game.id)
+  };
 }
 
 module.exports = {

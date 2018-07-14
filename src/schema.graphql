@@ -1,8 +1,18 @@
-# import Game, GameSubscriptionPayload, Vote, VoteSubscriptionPayload from "./generated/prisma.graphql"
+# import Game, GameSubscriptionPayload, Vote, VoteSubscriptionPayload, GameOrderByInput from "./generated/prisma.graphql"
 
 type Query {
   info: String!
-  inventory(filter: String): [Game!]!
+  inventory(
+    filter: String
+    skip: Int
+    first: Int
+    orderBy: GameOrderByInput
+  ): Inventory!
+}
+
+type Inventory {
+  games: [Game!]!
+  count: Int!
 }
 
 type Mutation {
