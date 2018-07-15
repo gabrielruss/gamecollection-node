@@ -17,6 +17,13 @@ type Inventory {
 
 type Mutation {
   createGame(name: String!, gameConsole: String!, condition: String!): Game!
+  updateGame(
+    gameId: ID!
+    name: String
+    gameConsole: String
+    condition: String
+  ): Game!
+  deleteGame(gameId: ID!): Game
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
   vote(gameId: ID!): Vote

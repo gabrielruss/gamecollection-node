@@ -57,6 +57,31 @@ function createGame(parent, args, context, info) {
   );
 }
 
+function updateGame(parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.db.mutation.updateGame(
+    {
+      where: { id: args.gameId },
+      data: {
+        name: args.name,
+        gameConsole: args.gameConsole,
+        condition: args.condition,
+        createdBy: { connect: { id: userId } }
+      }
+    },
+    info
+  );
+}
+
+async function deleteGame(parent, args, context, info) {
+  return context.db.mutation.deleteGame(
+    {
+      where: { id: args.gameId }
+    },
+    info
+  );
+}
+
 async function vote(parent, args, context, info) {
   const userId = getUserId(context);
 
@@ -83,5 +108,7 @@ module.exports = {
   signup,
   login,
   createGame,
+  updateGame,
+  deleteGame,
   vote
 };

@@ -5,7 +5,7 @@ type Game {
   gameConsole: String!
   condition: String!
   createdBy: User
-  votes: [Vote!]!
+  votes: [Vote!]! @relation(name: "Votes", onDelete: CASCADE)
 }
 
 type User {
@@ -19,6 +19,6 @@ type User {
 
 type Vote {
   id: ID! @unique
-  game: Game!
+  game: Game! @relation(name: "Votes")
   user: User!
 }
