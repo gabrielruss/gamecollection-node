@@ -2,7 +2,7 @@ type Game {
   id: ID! @unique
   createdAt: DateTime!
   name: String!
-  gameConsole: String!
+  gameConsole: Console!
   condition: String!
   createdBy: User
   votes: [Vote!]! @relation(name: "Votes", onDelete: CASCADE)
@@ -21,4 +21,14 @@ type Vote {
   id: ID! @unique
   game: Game! @relation(name: "Votes")
   user: User!
+}
+
+enum Console {
+  NES
+  SNES
+  N64
+  GAMECUBE
+  WII
+  WII_U
+  SWITCH
 }

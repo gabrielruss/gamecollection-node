@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/gabriel-russ-c7e03e/gamecollection-node/dev
-# timestamp: Thu Jul 12 2018 21:24:09 GMT-0400 (EDT)
+# timestamp: Mon Jul 16 2018 21:16:30 GMT-0400 (Eastern Daylight Time)
 
 type AggregateGame {
   count: Int!
@@ -18,13 +18,23 @@ type BatchPayload {
   count: Long!
 }
 
+enum Console {
+  NES
+  SNES
+  N64
+  GAMECUBE
+  WII
+  WII_U
+  SWITCH
+}
+
 scalar DateTime
 
 type Game implements Node {
   id: ID!
   createdAt: DateTime!
   name: String!
-  gameConsole: String!
+  gameConsole: Console!
   condition: String!
   createdBy(where: UserWhereInput): User
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
@@ -42,7 +52,7 @@ type GameConnection {
 
 input GameCreateInput {
   name: String!
-  gameConsole: String!
+  gameConsole: Console!
   condition: String!
   createdBy: UserCreateOneWithoutGamesInput
   votes: VoteCreateManyWithoutGameInput
@@ -60,14 +70,14 @@ input GameCreateOneWithoutVotesInput {
 
 input GameCreateWithoutCreatedByInput {
   name: String!
-  gameConsole: String!
+  gameConsole: Console!
   condition: String!
   votes: VoteCreateManyWithoutGameInput
 }
 
 input GameCreateWithoutVotesInput {
   name: String!
-  gameConsole: String!
+  gameConsole: Console!
   condition: String!
   createdBy: UserCreateOneWithoutGamesInput
 }
@@ -100,7 +110,7 @@ type GamePreviousValues {
   id: ID!
   createdAt: DateTime!
   name: String!
-  gameConsole: String!
+  gameConsole: Console!
   condition: String!
 }
 
@@ -145,7 +155,7 @@ input GameSubscriptionWhereInput {
 
 input GameUpdateInput {
   name: String
-  gameConsole: String
+  gameConsole: Console
   condition: String
   createdBy: UserUpdateOneWithoutGamesInput
   votes: VoteUpdateManyWithoutGameInput
@@ -170,14 +180,14 @@ input GameUpdateOneWithoutVotesInput {
 
 input GameUpdateWithoutCreatedByDataInput {
   name: String
-  gameConsole: String
+  gameConsole: Console
   condition: String
   votes: VoteUpdateManyWithoutGameInput
 }
 
 input GameUpdateWithoutVotesDataInput {
   name: String
-  gameConsole: String
+  gameConsole: Console
   condition: String
   createdBy: UserUpdateOneWithoutGamesInput
 }
@@ -309,46 +319,16 @@ input GameWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  gameConsole: String
+  gameConsole: Console
 
   """All values that are not equal to given value."""
-  gameConsole_not: String
+  gameConsole_not: Console
 
   """All values that are contained in given list."""
-  gameConsole_in: [String!]
+  gameConsole_in: [Console!]
 
   """All values that are not contained in given list."""
-  gameConsole_not_in: [String!]
-
-  """All values less than the given value."""
-  gameConsole_lt: String
-
-  """All values less than or equal the given value."""
-  gameConsole_lte: String
-
-  """All values greater than the given value."""
-  gameConsole_gt: String
-
-  """All values greater than or equal the given value."""
-  gameConsole_gte: String
-
-  """All values containing the given string."""
-  gameConsole_contains: String
-
-  """All values not containing the given string."""
-  gameConsole_not_contains: String
-
-  """All values starting with the given string."""
-  gameConsole_starts_with: String
-
-  """All values not starting with the given string."""
-  gameConsole_not_starts_with: String
-
-  """All values ending with the given string."""
-  gameConsole_ends_with: String
-
-  """All values not ending with the given string."""
-  gameConsole_not_ends_with: String
+  gameConsole_not_in: [Console!]
   condition: String
 
   """All values that are not equal to given value."""

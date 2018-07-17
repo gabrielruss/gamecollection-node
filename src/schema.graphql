@@ -20,7 +20,7 @@ type Mutation {
   updateGame(
     gameId: ID!
     name: String
-    gameConsole: String
+    gameConsole: Console
     condition: String
   ): Game!
   deleteGame(gameId: ID!): Game
@@ -44,4 +44,14 @@ type User {
 type Subscription {
   newGame: GameSubscriptionPayload
   newVote: VoteSubscriptionPayload
+}
+
+enum Console {
+  NES
+  SNES
+  N64
+  GAMECUBE
+  WII
+  WII_U
+  SWITCH
 }
